@@ -3,11 +3,11 @@ import pygame
 pygame.init()
 n = int(input())
 k = int(input())
-a = n * k * 2
-size = width, height = a, a
+b = n * k * 2
+size = width, height = b, b
 screen = pygame.display.set_mode(size)
-pos = a // 2
-radius = a // 2
+pos = b // 2
+radius = b // 2
 color = [(0, 0, 255), (0, 255, 0), (255, 0, 0)]
 n1 = 0
 for i in range(radius, -1, -n):
