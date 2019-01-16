@@ -30,7 +30,7 @@ x, y = 300, 300
 size = width, height = x, y
 screen = pygame.display.set_mode(size)
 running = True
-ex = Board(5, 7)
+ex = Board(9, 7)
 ex.set_view(30, 30, 30)
 ex.render()
 pygame.display.flip()
