@@ -1,12 +1,12 @@
 import pygame
 import os
-from random import randrange
 
 pygame.init()
-x, y = 500, 500
+x, y = 600, 95
 size = width, height = x, y
+running = True
 screen = pygame.display.set_mode(size)
-screen.fill((0, 0, 0))
+screen.fill((255, 255, 255))
 
 
 def load_image(name, colorkey=None):
@@ -24,37 +24,38 @@ def load_image(name, colorkey=None):
     return image
 
 
-class Bomb(pygame.sprite.Sprite):
-    image = load_image("bomb.png")
-    image_boom = load_image("boom.png")
+class Car(pygame.sprite.Sprite):
+    image = load_image("car2.png")
 
     def __init__(self, group):
         super().__init__(group)
-        self.image = Bomb.image
-        self.img = Bomb.image_boom
+        self.image = Car.image
         self.rect = self.image.get_rect()
-        self.rect.x = randrange(500)
-        self.rect.y = randrange(500)
 
-    def get_event(self, event):
-        if self.rect.collidepoint(event.pos):
-            self.image = self.img
+    def update(self, x1):
+        self.rect = self.rect.move(x1, 0)
+
+    def check_coords(self):
+        pygame.transform.flip(self.image, 1, 0)
 
 
-x, y = 0, 0
-running = True
-screen.fill((255, 255, 255))
 all_sprites = pygame.sprite.Group()
-for i in range(20):
-    Bomb(all_sprites)
+fps = 60
+v = 1
+clock = pygame.time.Clock()
+Car(all_sprites)
+x = 0
 while running:
     screen.fill((255, 255, 255))
-    all_sprites.draw(screen)
-    all_sprites.update()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
-        if event.type == pygame.MOUSEBUTTONUP:
-            for i in all_sprites:
-                i.get_event(event)
+    for i in all_sprites:
+        if i.rect.x == 600:
+            i.check_coords()
+            v = -v
+    all_sprites.draw(screen)
+    x += v / fps
+    all_sprites.update(x)
+    clock.tick(fps)
     pygame.display.flip()
