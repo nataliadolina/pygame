@@ -31,31 +31,25 @@ class Car(pygame.sprite.Sprite):
         super().__init__(group)
         self.image = Car.image
         self.rect = self.image.get_rect()
+        self.v = 120
 
-    def update(self, x1):
-        self.rect = self.rect.move(x1, 0)
-
-    def check_coords(self):
-        pygame.transform.flip(self.image, 1, 0)
+    def update(self, FPS):
+        if self.rect.x >= 450 or self.rect.x <= -1:
+            self.image = pygame.transform.flip(self.image, 1, 0)
+            self.v *= -1
+        self.rect = self.rect.move(int(self.v / FPS), 0)
 
 
 all_sprites = pygame.sprite.Group()
 fps = 60
-v = 1
 clock = pygame.time.Clock()
 Car(all_sprites)
-x = 0
 while running:
     screen.fill((255, 255, 255))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
-    for i in all_sprites:
-        if i.rect.x == 600:
-            i.check_coords()
-            v = -v
     all_sprites.draw(screen)
-    x += v / fps
-    all_sprites.update(x)
+    all_sprites.update(fps)
     clock.tick(fps)
     pygame.display.flip()
