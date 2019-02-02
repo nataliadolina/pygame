@@ -33,12 +33,15 @@ class Bomb(pygame.sprite.Sprite):
         self.image = Bomb.image
         self.img = Bomb.image_boom
         self.rect = self.image.get_rect()
-        self.rect.x = randrange(500)
-        self.rect.y = randrange(500)
+        self.rect.x = randrange(450)
+        self.rect.y = randrange(450)
 
     def get_event(self, event):
         if self.rect.collidepoint(event.pos):
+            c = self.rect.center
             self.image = self.img
+            self.rect = self.image.get_rect()
+            self.rect.center = c
 
 
 x, y = 0, 0
